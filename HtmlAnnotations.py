@@ -1,6 +1,5 @@
 import sublime
 import sublime_plugin
-import hashlib
 
 
 def clean_invalid_regions(view, annotations):
@@ -143,7 +142,6 @@ class AnnotateHtml(sublime_plugin.TextCommand):
 
             self.annotations["annotations"][key_name] = {
                 "region": [self.sel.begin(), self.sel.end()],
-                "hash": str(hashlib.sha1(self.view.substr(self.sel)).hexdigest()),
                 "comment": s
             }
             if subset == None:
