@@ -19,5 +19,9 @@
     {
         "caption": "Print to HTML: Clear All Annotations",
         "command": "clear_annotations"
+    },
+    {
+        "caption": "Print to HTML: Show Annotation Comment",
+        "command": "show_annotation_comment"
     }
 ]

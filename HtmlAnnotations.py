@@ -51,10 +51,33 @@ def delete_annotations(view):
         for x in range(0, int(annotations["count"])):
             region = annotations["annotations"]["html_annotation_%d" % x]["region"]
             annotation = sublime.Region(int(region[0]), int(region[1]))
-            if annotation.intersects(sel):
+            if annotation.contains(sel):
                 view.erase_regions("html_annotation_%d" % x)
                 break
     clean_invalid_regions(view, annotations)
+
+
+def get_annotation_comment(view):
+    comment = None
+    annotations = view.settings().get("annotation_comments", {"count": 0, "annotations": {}})
+    if len(view.sel()):
+        sel = view.sel()[0]
+        for x in range(0, int(annotations["count"])):
+            region = annotations["annotations"]["html_annotation_%d" % x]["region"]
+            annotation = sublime.Region(int(region[0]), int(region[1]))
+            if annotation.contains(sel):
+                comment = annotations["annotations"]["html_annotation_%d" % x]["comment"]
+    return comment
+
+
+class ShowAnnotationCommentCommand(sublime_plugin.TextCommand):
+    def is_enabled(self):
+        return self.view.settings().get("annotation_mode", False)
+
+    def run(self, edit):
+        comment = get_annotation_comment(self.view)
+        if comment != None:
+            sublime.message_dialog(comment)
 
 
 class ClearAnnotationsCommand(sublime_plugin.TextCommand):
