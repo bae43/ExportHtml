@@ -85,7 +85,9 @@ CSS_ANNOTATIONS = \
     * html a:hover { background: transparent; }
 """
 
-ANNOTATE = """<a class="tooltip" href="#">%(code)s<div class="annotation">%(comment)s</div></a>"""
+ANNOTATE_OPEN = """<a class="tooltip" href="javascript:void(0)">%(code)s"""
+
+ANNOTATE_CLOSE = """<div class="annotation">%(comment)s</div></a>"""
 
 BODY_START = """<body class="code_page code_text">\n<pre class="code_page">"""
 
@@ -267,6 +269,7 @@ class PrintHtml(object):
         self.curr_annot = None
         self.curr_comment = None
         self.annotations = self.get_annotations()
+        self.open_annot = False
 
         # Get color scheme
         if color_scheme != None:
@@ -415,23 +418,30 @@ class PrintHtml(object):
         post_text = None
         start = None
 
+        # Pretext Check
         if self.pt >= self.curr_annot.begin():
+            # Region starts with an annotation
             start = self.pt
         else:
+            # Region has text before annoation
             pre_text = self.html_encode(self.view.substr(sublime.Region(self.pt, self.curr_annot.begin())))
             start = self.curr_annot.begin()
 
         if self.end == self.curr_annot.end():
+            # Region ends annotation
             annot_text = self.html_encode(self.view.substr(sublime.Region(start, self.end)))
             self.curr_annot = None
         elif self.end > self.curr_annot.end():
+            # Region has text following annotation
             annot_text = self.html_encode(self.view.substr(sublime.Region(start, self.curr_annot.end())))
             post_text = self.html_encode(self.view.substr(sublime.Region(self.curr_annot.end(), self.end)))
             self.curr_annot = None
         else:
+            # Region ends but annotation is not finished
             annot_text = self.html_encode(self.view.substr(sublime.Region(start, self.end)))
             self.curr_annot = sublime.Region(self.end, self.curr_annot.end())
 
+        # Print the separate parts pre text, annotation, post text
         if pre_text != None:
             self.format_text(line, pre_text, the_colour, the_style, highlight=highlight)
         if annot_text != None:
@@ -443,11 +453,24 @@ class PrintHtml(object):
 
     def format_text(self, line, text, the_colour, the_style, highlight=False, annotate=False):
         if highlight:
+            # Highlighted code
             code = HIGHLIGHTED_CODE % {"highlight": self.sbground, "color": the_colour, "content": text, "class": the_style}
         else:
+            # Normal code
             code = CODE % {"color": the_colour, "content": text, "class": the_style}
         if annotate:
-            code = ANNOTATE % {"code": code, "comment": self.curr_comment}
+            if self.curr_annot != None and not self.open_annot:
+                # Open an annotation
+                code = ANNOTATE_OPEN % {"code": code}
+                self.open_annot = True
+            elif self.curr_annot == None:
+                if self.open_annot:
+                    # Close an annotation
+                    code += ANNOTATE_CLOSE % {"comment": self.curr_comment}
+                    self.open_annot = False
+                else:
+                    # Do a complete annotation
+                    code = ANNOTATE_OPEN % {"code": code} + ANNOTATE_CLOSE % {"comment": self.curr_comment}
         line.append(code)
 
     def convert_line_to_html(self, the_html):
@@ -485,6 +508,7 @@ class PrintHtml(object):
                     self.end += 1
                 the_colour, the_style = self.guess_colour(scope_name)
 
+            # Get new annotation
             if self.curr_annot == None and len(self.annotations):
                 self.curr_annot, self.curr_comment = self.annotations.pop(0)
                 while self.pt > self.curr_annot[1]:
@@ -498,17 +522,28 @@ class PrintHtml(object):
 
             region = sublime.Region(self.pt, self.end)
             if self.curr_annot != None and region.intersects(self.curr_annot):
+                # Apply annotation within the text and format the text
                 self.annotate_text(line, the_colour, the_style, highlight=hl_found)
             else:
+                # Normal text formatting
                 tidied_text = self.html_encode(self.view.substr(region))
                 self.format_text(line, tidied_text, the_colour, the_style, highlight=hl_found)
 
             if hl_found:
+                # Clear highlight flags and variables
                 hl_found = False
                 self.curr_hl = None
 
+            # Continue walking through line
             self.pt = self.end
             self.end = self.pt + 1
+
+        # Close annotation if open at end of line
+        if self.open_annot:
+            line.append(ANNOTATE_CLOSE % {"comment": self.curr_comment})
+            self.open_annot = False
+
+        # Join line segments
         return ''.join(line)
 
     def write_body(self, the_html):
