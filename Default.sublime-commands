@@ -3,5 +3,21 @@
     {
         "caption": "Print to HTML: Show Print Menu",
         "command": "print_html_panel"
+    },
+    {
+        "caption": "Print to HTML: Toggle Annotation Mode",
+        "command": "toggle_annotation_html_mode"
+    },
+    {
+        "caption": "Print to HTML: Annotate Selection",
+        "command": "annotate_html"
+    },
+    {
+        "caption": "Print to HTML: Delete Annotation(s)",
+        "command": "delete_annotations"
+    },
+    {
+        "caption": "Print to HTML: Clear All Annotations",
+        "command": "clear_annotations"
     }
 ]
