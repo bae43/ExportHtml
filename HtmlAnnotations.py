@@ -45,9 +45,32 @@ def clear_annotations(view):
     view.settings().set("annotation_comments", {"count": 0, "annotations": {}})
 
 
+def delete_annotations(view):
+    annotations = view.settings().get("annotation_comments", {"count": 0, "annotations": {}})
+    for sel in view.sel():
+        for x in range(0, int(annotations["count"])):
+            region = annotations["annotations"]["html_annotation_%d" % x]["region"]
+            annotation = sublime.Region(int(region[0]), int(region[1]))
+            if annotation.intersects(sel):
+                view.erase_regions("html_annotation_%d" % x)
+                break
+    clean_invalid_regions(view, annotations)
+
+
 class ClearAnnotationsCommand(sublime_plugin.TextCommand):
+    def is_enabled(self):
+        return self.view.settings().get("annotation_mode", False)
+
     def run(self, edit):
         clear_annotations(self.view)
+
+
+class DeleteAnnotationsCommand(sublime_plugin.TextCommand):
+    def is_enabled(self):
+        return self.view.settings().get("annotation_mode", False)
+
+    def run(self, edit):
+        delete_annotations(self.view)
 
 
 class ToggleAnnotationHtmlModeCommand(sublime_plugin.TextCommand):
@@ -70,8 +93,7 @@ class AnnotateHtml(sublime_plugin.TextCommand):
         subset = None
         comment = ""
         parent = None
-        # Is exact match? Exact is okay.
-        print self.annotations
+        intersect = False
         for k, v in self.annotations["annotations"].items():
             region = sublime.Region(int(v["region"][0]), int(v["region"][1]))
             if region.contains(self.sel):
@@ -79,9 +101,12 @@ class AnnotateHtml(sublime_plugin.TextCommand):
                 comment = v["comment"]
                 parent = k
                 break
+            elif region.intersects(self.sel):
+                intersect = True
+                break
         if subset != None:
             self.sel = subset
-        return comment, parent
+        return comment, parent, intersect
 
     def add_annotation(self, s, view_id, subset):
         window = sublime.active_window()
@@ -112,7 +137,7 @@ class AnnotateHtml(sublime_plugin.TextCommand):
     def annotation_panel(self, default_comment, subset):
         view_id = self.view.id()
         self.view.window().show_input_panel(
-            ("Annotate region %s:" % self.key),
+            ("Annotate region (%d, %d)" % (self.sel.begin(), self.sel.end())),
             default_comment,
             lambda x: self.add_annotation(x, view_id=view_id, subset=subset),
             None,
@@ -125,8 +150,9 @@ class AnnotateHtml(sublime_plugin.TextCommand):
     def run(self, edit):
         self.sel = self.view.sel()[0]
         self.annotations = get_annotations(self.view)
-        print self.annotations
         if not self.sel.empty():
-            self.key = "(%d, %d)" % (self.sel.begin(), self.sel.end())
-            comment, subset = self.subset_annotation_adjust()
-            self.annotation_panel(comment, subset)
+            comment, subset, intersects = self.subset_annotation_adjust()
+            if not intersects:
+                self.annotation_panel(comment, subset)
+            else:
+                sublime.error_message("Cannot have intersecting annotation regions!")
