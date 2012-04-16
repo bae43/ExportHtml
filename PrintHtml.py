@@ -5,6 +5,7 @@ import tempfile
 import sys
 import datetime
 import webbrowser
+from HtmlAnnotations import get_annotations
 
 PACKAGE_SETTINGS = "PrintHtml.sublime-settings"
 
@@ -35,8 +36,42 @@ CSS = \
     .code_line { padding-left: 10px; }
     span { border: 0; margin: 0; padding: 0; }
     body { color: %(body_fg)s; }
+    %(annotations)s
 </style>
 </head>
+"""
+
+CSS_ANNOTATIONS = \
+"""
+    .tooltip {
+        border-bottom: 1px dotted %(dot_colour)s;
+        outline: none;
+        text-decoration: none;
+        position: relative;
+    }
+    .tooltip span.annotation {
+        border-radius: 5px 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+        -webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+        margin-left: -999em;
+        position: absolute;
+        padding: 0.8em 1em;
+        background: #FFFFAA; border: 1px solid #FFAD33;
+        font-family: Calibri, Tahoma, Geneva, sans-serif;
+        font-size: 10pt;
+        font-weight: bold;
+        width: 250px;
+        left: 1em;
+        top: 2em;
+        z-index: 99;
+    }
+    .tooltip:hover span.annotation {
+        margin-left: 0;
+    }
+    * html a:hover { background: transparent; }
 """
 
 BODY_START = """<body class="code_page code_text">\n<pre class="code_page">"""
@@ -181,6 +216,15 @@ class PrintHtml(object):
     def __init__(self, view):
         self.view = view
 
+    def get_annotations(self):
+        annotations = get_annotations(self.view)
+        comments = []
+        for x in range(0, annotations["count"]):
+            region = annotations["annotations"]["html_annotation_%d" % x]["region"]
+            comments.append((region, annotations["annotations"]["html_annotation_%d" % x]["comment"]))
+        comments.sort()
+        return comments
+
     def webopen(self, name):
         # Try desktop module first, if it fails, try webbrowser
         if desktop.open(name)[1]:
@@ -217,6 +261,8 @@ class PrintHtml(object):
         self.curr_row = 0
         self.partial = False
         self.tables = 0
+        self.curr_annot = None
+        self.curr_comment = None
 
         # Get color scheme
         if color_scheme != None:
@@ -254,6 +300,8 @@ class PrintHtml(object):
 
             if scope != None and colour != None:
                 self.colours[scope] = colour
+
+        self.annotations = self.get_annotations()
 
     def setup_print_block(self, curr_sel, multi=False):
         # Determine start and end points and whether to parse whole file or selection
@@ -314,7 +362,8 @@ class PrintHtml(object):
             "page_bg":   self.bground,
             "gutter_bg": self.gbground,
             "body_fg":   self.fground,
-            "display_mode": 'table-cell' if self.numbers else 'none'
+            "display_mode": 'table-cell' if self.numbers else 'none',
+            "annotations": (CSS_ANNOTATIONS % {"dot_colour": self.fground})
         }
         the_html.write(header)
 
@@ -337,6 +386,52 @@ class PrintHtml(object):
         }
 
         return ''.join(encode_table.get(c, c) for c in text).encode('ascii', 'xmlcharrefreplace')
+
+    def annotate_text(self, line, the_colour, highlight=False):
+        pre_text = None
+        annot_text = None
+        post_text = None
+        if self.pt >= self.curr_annot.begin():
+            if self.end == self.curr_annot.end():
+                annot_text = self.html_encode(self.view.substr(sublime.Region(self.pt, self.end)))
+                self.curr_annot = None
+            elif self.end > self.curr_annot.end():
+                annot_text = self.html_encode(self.view.substr(sublime.Region(self.pt, self.curr_annot.end())))
+                post_text = self.html_encode(self.view.substr(sublime.Region(self.curr_annot.end(), self.end)))
+                self.curr_annot = None
+            else:
+                annot_text = self.html_encode(self.view.substr(sublime.Region(self.pt, self.end)))
+                self.curr_annot = sublime.Region(self.end, self.curr_annot.end())
+        else:
+            pre_text = self.html_encode(self.view.substr(sublime.Region(self.pt, self.curr_annot.begin())))
+            if self.end == self.curr_annot.end():
+                annot_text = self.html_encode(self.view.substr(sublime.Region(self.curr_annot.begin(), self.end)))
+                self.curr_annot = None
+            elif self.end > self.curr_annot.end():
+                annot_text = self.html_encode(self.view.substr(sublime.Region(self.curr_annot.begin(), self.curr_annot.end())))
+                post_text = self.html_encode(self.view.substr(sublime.Region(self.curr_annot.end(), self.end)))
+                self.curr_annot = None
+            else:
+                annot_text = self.html_encode(self.view.substr(sublime.Region(self.curr_annot.begin(), self.end)))
+                self.curr_annot = sublime.Region(self.end, self.curr_annot.end())
+        if pre_text != None:
+            self.format_text(line, pre_text, the_colour, highlight=highlight)
+        if annot_text != None:
+            self.format_text(line, annot_text, the_colour, highlight=highlight, annotate=True)
+            if self.curr_annot == None:
+                self.curr_comment = None
+        if post_text != None:
+            self.format_text(line, post_text, the_colour, highlight=highlight)
+
+    def format_text(self, line, text, the_colour, highlight=False, annotate=False):
+        if annotate:
+            line.append('<a class="tooltip" href="#">')
+        if highlight:
+            line.append(HIGHLIGHTED_CODE % {"highlight": self.sbground, "color": the_colour, "content": text})
+        else:
+            line.append(CODE % {"color": the_colour, "content": text})
+        if annotate:
+            line.append('<span class="annotation">' + self.curr_comment + '</span></a>')
 
     def convert_line_to_html(self, the_html):
         line = []
@@ -361,6 +456,7 @@ class PrintHtml(object):
                     # Highlight is bigger than line, mark for continuation
                     self.end = self.size
                     self.hl_continue = sublime.Region(self.size + 1, self.curr_hl.end())
+                the_colour = self.sfground
             else:
                 # Get text of like scope up to a highlight
                 scope_name = self.view.scope_name(self.pt)
@@ -371,15 +467,27 @@ class PrintHtml(object):
                     self.end += 1
                 the_colour = self.guess_colour(scope_name)
 
-            tidied_text = self.html_encode(self.view.substr(sublime.Region(self.pt, self.end)))
+            if self.curr_annot == None and len(self.annotations):
+                self.curr_annot, self.curr_comment = self.annotations.pop(0)
+                while self.pt > self.curr_annot[1]:
+                    if len(self.annotations):
+                        self.curr_annot, self.curr_comment = self.annotations.pop(0)
+                    else:
+                        self.curr_annot = None
+                        self.curr_comment = None
+                        break
+                self.curr_annot = sublime.Region(self.curr_annot[0], self.curr_annot[1])
 
-            # Highlight span if needed
+            region = sublime.Region(self.pt, self.end)
+            if self.curr_annot != None and region.intersects(self.curr_annot):
+                self.annotate_text(line, the_colour, highlight=hl_found)
+            else:
+                tidied_text = self.html_encode(self.view.substr(region))
+                self.format_text(line, tidied_text, the_colour, highlight=hl_found)
+
             if hl_found:
-                line.append(HIGHLIGHTED_CODE % {"highlight": self.sbground, "color": self.sfground, "content": tidied_text})
                 hl_found = False
                 self.curr_hl = None
-            else:
-                line.append(CODE % {"color": the_colour, "content": tidied_text})
 
             self.pt = self.end
             self.end = self.pt + 1
