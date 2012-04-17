@@ -29,7 +29,17 @@ CSS = \
     pre { border: 0; margin: 0; padding: 0; }
     td { display: %(display_mode)s; padding: 0; }
     table { border: 0; margin: 0; padding: 0; }
-    div { float:left; width:100%%; word-wrap: break-word; }
+    div {
+        float:left;
+        width:100%%;
+        white-space: -moz-pre-wrap; /* Mozilla */
+        white-space: -hp-pre-wrap; /* HP printers */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: pre-wrap; /* CSS 2.1 */
+        white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
+        word-wrap: break-word; /* IE */
+    }
     .code_text { font: %(font_size)dpt "%(font_face)s", Consolas, Monospace; }
     .code_page { background-color: %(page_bg)s; }
     .code_gutter { background-color: %(gutter_bg)s; }
@@ -622,5 +632,6 @@ class PrintHtml(object):
             self.view.window().open_file(the_html.name)
         else:
             # Open in web browser; check return code, if failed try webbrowser
-            if desktop.open(the_html.name, status=True):
-                webbrowser.open(the_html.name)
+            status = desktop.open(the_html.name, status=True)
+            if not status:
+                webbrowser.open(the_html.name, new=2)
