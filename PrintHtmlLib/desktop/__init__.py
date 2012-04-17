@@ -277,7 +277,7 @@ def open(url, desktop=None, wait=0, status=False):
         raise OSError, "Desktop '%s' not supported (neither DESKTOP_LAUNCH nor os.startfile could be used)" % desktop_in_use
 
     if status:
-        return _status(cmd, 0, wait)
+        return _status(cmd, 0)
     else:
         return _run(cmd, 0, wait)
 
