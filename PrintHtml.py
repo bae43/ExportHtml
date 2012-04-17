@@ -101,7 +101,7 @@ ANNOTATE_CLOSE = """<div class="annotation">%(comment)s</div></a>"""
 
 BODY_START = """<body class="code_page code_text">\n<pre class="code_page">"""
 
-FILE_INFO = """<div id="file_info"><span style="color: %(color)s">%(date_time)s %(file)s\n\n</span></div>"""
+FILE_INFO = """<tr><td colspan="2"><div id="file_info"><span style="color: %(color)s">%(date_time)s %(file)s\n\n</span></div></td></tr>"""
 
 TABLE_START = """<table cellspacing="0" cellpadding="0" class="code_page">"""
 
