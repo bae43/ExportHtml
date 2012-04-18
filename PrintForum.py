@@ -238,8 +238,8 @@ class PrintForum(object):
                 count += 1
 
                 if count < total:
-                    the_post.write(POST_END + "\n")
-                    the_post.write(POST_START % {"bg_color": self.bground})
+                    the_post.write("\n" + (FORUM_CODE % {"color": self.fground, "content": "..."}) + "\n\n")
+
         else:
             self.setup_print_block(self.view.sel()[0])
             self.convert_view_to_post(the_post)
