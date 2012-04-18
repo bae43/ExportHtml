@@ -76,7 +76,6 @@ class PrintForum(object):
         self.curr_hl = None
         self.sels = []
         self.multi_select = self.check_sel() if multi_select else False
-        print self.multi_select
         self.size = self.view.size()
         self.pt = 0
         self.end = 0
@@ -178,13 +177,14 @@ class PrintForum(object):
             self.curr_row += 1
 
     def format_text(self, line, text, the_colour, the_style):
-        code = ""
-        if self.empty_space:
+        text = text.replace('\t', ' ' * self.tab_size).replace('\n', '')
+        if self.empty_space != None:
             text = self.empty_space + text
             self.empty_space = None
         if text.strip(' ') == '':
             self.empty_space = text
         else:
+            code = ""
             bold = False
             italic = False
             for s in the_style:
@@ -196,12 +196,12 @@ class PrintForum(object):
                 code += '[b]'
             if italic:
                 code += '[i]'
-            code += (FORUM_CODE % {"color": the_colour, "content": text}).replace('\t', ' ' * self.tab_size).replace('\n', '')
+            code += (FORUM_CODE % {"color": the_colour, "content": text})
             if italic:
                 code += '[/i]'
             if bold:
                 code += '[/b]'
-        line.append(code)
+            line.append(code)
 
     def convert_line_to_post(self):
         line = []
