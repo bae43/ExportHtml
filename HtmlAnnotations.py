@@ -69,19 +69,55 @@ def get_annotation_comment(view):
     return comment
 
 
+def is_selection_in_annotation(view):
+    mode = view.settings().get("annotation_mode", False)
+    selection = False
+    if mode:
+        annotations = view.settings().get("annotation_comments", {"count": 0, "annotations": {}})
+        for sel in view.sel():
+            for x in range(0, int(annotations["count"])):
+                region = annotations["annotations"]["html_annotation_%d" % x]["region"]
+                annotation = sublime.Region(int(region[0]), int(region[1]))
+                if annotation.contains(sel):
+                    selection = True
+                    break
+    return mode and selection
+
+
+def annotations_exist(view):
+    mode = view.settings().get("annotation_mode", False)
+    found = False
+    if mode:
+        annotations = view.settings().get("annotation_comments", {"count": 0, "annotations": {}})
+        if int(annotations["count"]):
+            found = True
+    return mode and found
+
+
+def is_selected(view):
+    mode = view.settings().get("annotation_mode", False)
+    selected = False
+    if mode:
+        for sel in view.sel():
+            if not sel.empty():
+                selected = True
+    return mode and selected
+
+
 class ShowAnnotationCommentCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
-        return self.view.settings().get("annotation_mode", False)
+        return is_selection_in_annotation(self.view)
 
     def run(self, edit):
         comment = get_annotation_comment(self.view)
         if comment != None:
-            sublime.message_dialog(comment)
+            sublime.message_dialog("Annotation Comment:\n\n%s" % comment)
+            sublime.set_clipboard(comment)
 
 
 class ClearAnnotationsCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
-        return self.view.settings().get("annotation_mode", False)
+        return annotations_exist(self.view)
 
     def run(self, edit):
         clear_annotations(self.view)
@@ -89,10 +125,26 @@ class ClearAnnotationsCommand(sublime_plugin.TextCommand):
 
 class DeleteAnnotationsCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
-        return self.view.settings().get("annotation_mode", False)
+        return is_selection_in_annotation(self.view)
 
     def run(self, edit):
         delete_annotations(self.view)
+
+
+class EnableAnnotationModeCommand(sublime_plugin.TextCommand):
+    def is_visible(self):
+        return not self.view.settings().get("annotation_mode", False)
+
+    def run(self, edit):
+        self.view.run_command("toggle_annotation_html_mode")
+
+
+class DisableAnnotationModeCommand(sublime_plugin.TextCommand):
+    def is_visible(self):
+        return self.view.settings().get("annotation_mode", False)
+
+    def run(self, edit):
+        self.view.run_command("toggle_annotation_html_mode")
 
 
 class ToggleAnnotationHtmlModeCommand(sublime_plugin.TextCommand):
@@ -105,12 +157,14 @@ class ToggleAnnotationHtmlModeCommand(sublime_plugin.TextCommand):
         if mode:
             self.view.settings().set("annotation_read_mode", self.view.is_read_only())
             self.view.set_read_only(True)
+            self.view.set_status("html_annotation_mode", "Annotation Mode: ON")
         else:
             clear_annotations(self.view)
             self.view.set_read_only(self.view.settings().get("annotation_read_mode", False))
+            self.view.erase_status("html_annotation_mode")
 
 
-class AnnotateHtml(sublime_plugin.TextCommand):
+class AnnotateHtmlCommand(sublime_plugin.TextCommand):
     def subset_annotation_adjust(self):
         subset = None
         comment = ""
@@ -166,7 +220,7 @@ class AnnotateHtml(sublime_plugin.TextCommand):
         )
 
     def is_enabled(self):
-        return self.view.settings().get("annotation_mode", False)
+        return is_selected(self.view)
 
     def run(self, edit):
         self.sel = self.view.sel()[0]

@@ -6,6 +6,7 @@ import sys
 import datetime
 import webbrowser
 from HtmlAnnotations import get_annotations
+import PrintHtmlLib.desktop as desktop
 
 PACKAGE_SETTINGS = "PrintHtml.sublime-settings"
 
@@ -15,8 +16,6 @@ if sublime.platform() == "linux":
     if not linux_lib in sys.path and path.exists(linux_lib):
         sys.path.append(linux_lib)
 from plistlib import readPlist
-
-import PrintHtmlLib.desktop as desktop
 
 # HTML Code
 CSS = \
@@ -290,7 +289,6 @@ class PrintHtml(object):
         self.pt = 0
         self.end = 0
         self.curr_row = 0
-        self.partial = False
         self.tables = 0
         self.curr_annot = None
         self.curr_comment = None
@@ -350,13 +348,11 @@ class PrintHtml(object):
             self.pt = 0
             self.end = 1
             self.curr_row = 1
-            self.partial = False
         else:
             self.size = curr_sel.end()
             self.pt = curr_sel.begin()
             self.end = self.pt + 1
             self.curr_row = self.view.rowcol(self.pt)[0] + 1
-            self.partial = True
         self.start_line = self.curr_row
 
         self.gutter_pad = len(str(self.view.rowcol(self.size)[0])) + 1
