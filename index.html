@@ -30,49 +30,27 @@
         }
     </style>
     <script type="text/javascript">
-        function download_theme(id) {
-            document.getElementById(id).contentWindow.dump_theme();
-        }
         function get_background_colors(id) {
             var frame = document.getElementById(id),
                 color_scheme = frame.contentWindow.plist.color_scheme;
             frame.style.backgroundColor = color_scheme["settings"][0]["settings"]["background"];
         }
-        function print_code(id) {
-            document.getElementById(id).contentWindow.page_print();
-        }
-        function toggle_plain_text(id) {
-            document.getElementById(id).contentWindow.plain_text();
-        }
-        function toggle_gutter(id) {
-            document.getElementById(id).contentWindow.toggle_gutter();
-        }
-        function toggle_annotation_table(id) {
-            document.getElementById(id).contentWindow.toggle_comments();
-        }
     </script>
 <head>
 </head>
 <body>
-    <h1>Export HTML for Sublime Text 2</h2>
+    <h1>Export HTML for Sublime Text 2 Demo</h2>
     <div class="main">
+        <h2>Tomorrow Night Demo</h2>
+        <p>Access toolbar in upper right corner of view</p>
         <iframe id="TomorrowNight" src="TomorrowNightDemo.html" onload="get_background_colors(this.id);"></iframe>
-        <br>
-        <button type="button" onclick="download_theme('TomorrowNight');">Download Color Scheme: Tomorrow Night Mod</button>
-        <button type="button" onclick="print_code('TomorrowNight');">Print Code</button>
-        <button type="button" onclick="toggle_plain_text('TomorrowNight');">Toggle Plain Text</button>
-        <button type="button" onclick="toggle_gutter('TomorrowNight');">Toggle Gutter</button>
-        <button type="button" onclick="toggle_annotation_table('TomorrowNight');">Toggle Annotation Table</button>
-        <br>
-        <br>
+
+        <h2>Monokai Blue Demo</h2>
         <iframe id="MonokaiBlue" src="MonokaiBlueDemo.html" onload="get_background_colors(this.id);"></iframe>
-        <br/>
-        <button type="button" onclick="download_theme('MonokaiBlue');">Download Color Scheme: Monokai Blue Mod</button>
-        <br>
-        <br>
+
+        <h2>Tomorrow Night Dark Demo</h2>
         <iframe id="TomorrowNightDark" src="TomorrowNightDarkDemo.html" onload="get_background_colors(this.id);"></iframe>
-        <br/>
-        <button type="button" onclick="download_theme('TomorrowNightDark');">Download Color Scheme: Tomorrow Night Dark Mod</button>
+
     </div>
 </body>
 </html>
