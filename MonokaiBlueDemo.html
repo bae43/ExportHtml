@@ -73,6 +73,7 @@
         -webkit-font-smoothing: antialiased; /* webkit text rendering fix */
     }
     div#toolbar {
+        visibility: hidden;
         padding-left: 10px;
         padding-right: 10px;
         opacity: 0;
@@ -80,15 +81,8 @@
         border:1px solid grey;
         color: white;
     }
-    div#toolbarIE {
-        padding-left: 10px;
-        padding-right: 10px;
-        visibility: hidden;
-        background-color:black;
-        border:1px solid grey;
-        color: white;
-    }
     div#toolbarhide:hover div#toolbar {
+        visibility: visible;
         opacity: .8;
         -webkit-transition: all .25s ease-out;
          -moz-transition: all .25s ease-out;
@@ -96,10 +90,7 @@
            -o-transition: all .25s ease-out;
               transition: all .25s ease-out;
     }
-    div#toolbarhide:hover div#toolbarIE {
-        visibility: visible;
-    }
-    div#toolbar a, div#toolbarIE a {
+    div#toolbar a {
         color:white;
     }
     div#comment_list {
@@ -625,7 +616,7 @@ function dump_theme() {
 <body class="code_page code_text">
 <pre class="code_page"><table cellspacing="0" cellpadding="0" class="code_page"><tr><td><table cellspacing="0" cellpadding="0" class="code_page"><tr><td valign="top" id="L_0_1" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;&nbsp;1&nbsp;</span></td><td class="code_text code_line"><div id="C_0_1"><span class="normal" style="color:#F8F8F2">&lt;!</span><span class="normal" style="color:#F8F8F2">DOCTYPE&nbsp;HTML&nbsp;PUBLIC&nbsp;</span><span class="normal" style="color:#E6DB74">"-//W3C//DTD&nbsp;HTML&nbsp;4.01//EN"</span><span class="normal" style="color:#F8F8F2">&nbsp;</span><span class="normal" style="color:#E6DB74">"http://www.w3.org/TR/html4/strict.dtd"</span><span class="normal" style="color:#F8F8F2">&gt;</span>
 </div></td></tr><tr><td valign="top" id="L_0_2" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;&nbsp;2&nbsp;</span></td><td class="code_text code_line"><div id="C_0_2"><span class="normal" style="color:#F8F8F2"></span><span class="normal" style="color:#F8F8F2">&lt;</span><span class="normal" style="color:#F92672">html</span><span class="normal" style="color:#F8F8F2">&gt;</span>
-</div></td></tr><tr><td valign="top" id="L_0_3" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;&nbsp;3&nbsp;</span></td><td class="code_text code_line"><div id="C_0_3"><span class="normal" style="color:#F8F8F2"></span><span class="normal" style="color:#F8F8F2">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="normal" style="color:#F8F8F2">&lt;</span><span class="normal" style="color:#F92672">style</span><span class="normal" style="color:#F8F8F2">&nbsp;</span><span class="normal" style="color:#A6E22E">type</span><span class="normal" style="color:#F8F8F2">=</span><span class="normal" style="color:#E6DB74">"</span><span class="normal" style="color:#E6DB74">text/css</span><span class="normal" style="color:#E6DB74">"</span><span class="normal" style="color:#F8F8F2">&gt;</span>
+</div></td></tr><tr><td valign="top" id="L_0_3" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;&nbsp;3&nbsp;</span></td><td class="code_text code_line"><div id="C_0_3"><span class="normal" style="color:#F8F8F2"></span><span class="normal" style="color:#F8F8F2">&nbsp;&nbsp;&nbsp;&nbsp;</span><a class="tooltip" href="javascript:toggle_annotations();"><span class="normal" style="color:#F8F8F2">&lt;</span><span class="normal" style="color:#F92672">style</span><span class="normal" style="color:#F8F8F2">&nbsp;</span><span class="normal" style="color:#A6E22E">type</span><span class="normal" style="color:#F8F8F2">=</span><span class="normal" style="color:#E6DB74">"</span><span class="normal" style="color:#E6DB74">text/css</span><span class="normal" style="color:#E6DB74">"</span><span class="normal" style="color:#F8F8F2">&gt;</span><div class="annotation">Example annotation! (click me)</div></a>
 </div></td></tr><tr><td valign="top" id="L_0_4" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;&nbsp;4&nbsp;</span></td><td class="code_text code_line"><div id="C_0_4"><span class="normal" style="color:#F8F8F2"></span><span class="normal" style="color:#F8F8F2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="normal" style="color:#F92672">html</span><span class="normal" style="color:#F8F8F2">&nbsp;</span><span class="normal" style="color:#F8F8F2">{</span>
 </div></td></tr><tr><td valign="top" id="L_0_5" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;&nbsp;5&nbsp;</span></td><td class="code_text code_line"><div id="C_0_5"><span class="normal" style="color:#F8F8F2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="italic" style="color:#66D9EF">margin</span><span class="normal" style="color:#F8F8F2">:</span><span class="normal" style="color:#F8F8F2">&nbsp;</span><span class="normal" style="color:#AE81FF">40</span><span class="normal" style="color:#F92672">px</span><span class="normal" style="color:#F8F8F2">;</span>
 </div></td></tr><tr><td valign="top" id="L_0_6" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;&nbsp;6&nbsp;</span></td><td class="code_text code_line"><div id="C_0_6"><span class="normal" style="color:#F8F8F2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="italic" style="color:#66D9EF">padding-right</span><span class="normal" style="color:#F8F8F2">:</span><span class="normal" style="color:#F8F8F2">&nbsp;</span><span class="normal" style="color:#AE81FF">30</span><span class="normal" style="color:#F92672">px</span><span class="normal" style="color:#F8F8F2">;</span>
@@ -655,7 +646,7 @@ function dump_theme() {
 </div></td></tr><tr><td valign="top" id="L_0_30" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;30&nbsp;</span></td><td class="code_text code_line"><div id="C_0_30"><span class="normal" style="color:#F8F8F2"></span><span class="normal" style="color:#F8F8F2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span>
 </div></td></tr><tr><td valign="top" id="L_0_31" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;31&nbsp;</span></td><td class="code_text code_line"><div id="C_0_31"><span class="normal" style="color:#F8F8F2">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="normal" style="color:#F8F8F2">&lt;/</span><span class="normal" style="color:#F92672">style</span><span class="normal" style="color:#F8F8F2">&gt;</span>
 </div></td></tr><tr><td valign="top" id="L_0_32" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;32&nbsp;</span></td><td class="code_text code_line"><div id="C_0_32"><span class="normal" style="color:#F8F8F2"></span><span class="normal" style="color:#F8F8F2">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="normal" style="color:#F8F8F2">&lt;</span><span class="normal" style="color:#F92672">script</span><span class="normal" style="color:#F8F8F2">&nbsp;</span><span class="normal" style="color:#A6E22E">type</span><span class="normal" style="color:#F8F8F2">=</span><span class="normal" style="color:#E6DB74">"</span><span class="normal" style="color:#E6DB74">text/javascript</span><span class="normal" style="color:#E6DB74">"</span><span class="normal" style="color:#F8F8F2">&gt;</span>
-</div></td></tr><tr><td valign="top" id="L_0_33" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;33&nbsp;</span></td><td class="code_text code_line"><div id="C_0_33"><span class="normal" style="color:#F8F8F2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="italic" style="color:#66D9EF">function</span><span class="normal" style="color:#F8F8F2">&nbsp;</span><span class="normal" style="color:#A6E22E">get_background_colors</span><span class="normal" style="color:#F8F8F2">(</span><span class="italic" style="color:#FD971F">id</span><span class="normal" style="color:#F8F8F2">)</span><span class="normal" style="color:#F8F8F2">&nbsp;</span><span class="normal" style="color:#F8F8F2">{</span>
+</div></td></tr><tr><td valign="top" id="L_0_33" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;33&nbsp;</span></td><td class="code_text code_line"><div id="C_0_33"><span class="normal" style="color:#F8F8F2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="italic" style="color:#66D9EF">function</span><span class="normal" style="color:#F8F8F2">&nbsp;</span><a class="tooltip" href="javascript:toggle_annotations();"><span class="normal" style="color:#A6E22E">get_background_colors</span><div class="annotation">Another annotation!</div></a><span class="normal" style="color:#F8F8F2">(</span><span class="italic" style="color:#FD971F">id</span><span class="normal" style="color:#F8F8F2">)</span><span class="normal" style="color:#F8F8F2">&nbsp;</span><span class="normal" style="color:#F8F8F2">{</span>
 </div></td></tr><tr><td valign="top" id="L_0_34" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;34&nbsp;</span></td><td class="code_text code_line"><div id="C_0_34"><span class="normal" style="color:#F8F8F2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="italic" style="color:#66D9EF">var</span><span class="normal" style="color:#F8F8F2">&nbsp;frame&nbsp;</span><span class="normal" style="color:#F92672">=</span><span class="normal" style="color:#F8F8F2">&nbsp;</span><span class="italic" style="color:#66D9EF">document</span><span class="normal" style="color:#F8F8F2">.</span><span class="normal" style="color:#66D9EF">getElementById</span><span class="normal" style="color:#F8F8F2">(</span><span class="normal" style="color:#F8F8F2">id</span><span class="normal" style="color:#F8F8F2">)</span><span class="normal" style="color:#F8F8F2">,</span>
 </div></td></tr><tr><td valign="top" id="L_0_35" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;35&nbsp;</span></td><td class="code_text code_line"><div id="C_0_35"><span class="normal" style="color:#F8F8F2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color_scheme&nbsp;</span><span class="normal" style="color:#F92672">=</span><span class="normal" style="color:#F8F8F2">&nbsp;frame</span><span class="normal" style="color:#F8F8F2">.</span><span class="normal" style="color:#F8F8F2">contentWindow</span><span class="normal" style="color:#F8F8F2">.</span><span class="normal" style="color:#F8F8F2">plist</span><span class="normal" style="color:#F8F8F2">.</span><span class="normal" style="color:#F8F8F2">color_scheme</span><span class="normal" style="color:#F8F8F2">;</span>
 </div></td></tr><tr><td valign="top" id="L_0_36" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;36&nbsp;</span></td><td class="code_text code_line"><div id="C_0_36"><span class="normal" style="color:#F8F8F2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame</span><span class="normal" style="color:#F8F8F2">.</span><span class="normal" style="color:#66D9EF">style</span><span class="normal" style="color:#F8F8F2">.</span><span class="normal" style="color:#66D9EF">backgroundColor</span><span class="normal" style="color:#F8F8F2">&nbsp;</span><span class="normal" style="color:#F92672">=</span><span class="normal" style="color:#F8F8F2">&nbsp;color_scheme</span><span class="normal" style="color:#F8F8F2">[</span><span class="normal" style="color:#E6DB74">"</span><span class="normal" style="color:#E6DB74">settings</span><span class="normal" style="color:#E6DB74">"</span><span class="normal" style="color:#F8F8F2">][</span><span class="normal" style="color:#AE81FF">0</span><span class="normal" style="color:#F8F8F2">][</span><span class="normal" style="color:#E6DB74">"</span><span class="normal" style="color:#E6DB74">settings</span><span class="normal" style="color:#E6DB74">"</span><span class="normal" style="color:#F8F8F2">][</span><span class="normal" style="color:#E6DB74">"</span><span class="normal" style="color:#E6DB74">background</span><span class="normal" style="color:#E6DB74">"</span><span class="normal" style="color:#F8F8F2">]</span><span class="normal" style="color:#F8F8F2">;</span>
@@ -679,14 +670,130 @@ function dump_theme() {
 </div></td></tr><tr><td valign="top" id="L_0_54" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;54&nbsp;</span></td><td class="code_text code_line"><div id="C_0_54"><span class="normal" style="color:#F8F8F2">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="normal" style="color:#F8F8F2">&lt;/</span><span class="normal" style="color:#F92672">div</span><span class="normal" style="color:#F8F8F2">&gt;</span>
 </div></td></tr><tr><td valign="top" id="L_0_55" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;55&nbsp;</span></td><td class="code_text code_line"><div id="C_0_55"><span class="normal" style="color:#F8F8F2"></span><span class="normal" style="color:#F8F8F2">&lt;/</span><span class="normal" style="color:#F92672">body</span><span class="normal" style="color:#F8F8F2">&gt;</span>
 </div></td></tr><tr><td valign="top" id="L_0_56" class="code_text code_gutter"><span style="color: #F8F8F2;">&nbsp;56&nbsp;</span></td><td class="code_text code_line"><div id="C_0_56"><span class="normal" style="color:#F8F8F2"></span><span class="normal" style="color:#F8F8F2">&lt;/</span><span class="normal" style="color:#F92672">html</span><span class="normal" style="color:#F8F8F2">&gt;</span>
-</div></td></tr></table></td></tr></table></pre>
+</div></td></tr></table></td></tr></table><div id="comment_list" style="display:none"><div id="comment_wrapper"><table id="comment_table"><tr><th>Line/Col</th><th>Comments<a href="javascript:void(0)" class="table_close" onclick="toggle_annotations();return false;">(close)</a></th></tr><tr><td class="annotation_link"><a href="javascript:void(0)" onclick="scroll_to_line('C_0_3');return false;">Line 3 Col 5</a></td><td class="annotation_comment"><div class="annotation_comment">Example annotation! (click me)</div></td><tr><tr><td class="annotation_link"><a href="javascript:void(0)" onclick="scroll_to_line('C_0_33');return false;">Line 33 Col 18</a></td><td class="annotation_comment"><div class="annotation_comment">Another annotation!</div></td><tr><tr><td colspan=2><div class="table_footer"><label>Position </label><select id="dock" size="1" onchange="dock_table();"><option value="0" selected="selected">center</option><option value="1">top</option><option value="2">bottom</option><option value="3">left</option><option value="4">right</option><option value="5">top left</option><option value="6">top right</option><option value="7">bottom left</option><option value="8">bottom right</option></select></div></td></tr></table></div></div></pre>
 <div id="toolbarhide">
-<!--[if gt IE 0]>        <div id="toolbarIE"> <![endif]-->
-<!--[if !IE]><!-->       <div id="toolbar">   <!--<![endif]-->
-         <a href="javascript:toggle_plain_text()" title="Toggle Plain Text">Text</a>  <a href="javascript:toggle_gutter()" title="Toggle Gutter">Gutter</a>  <a href="javascript:page_print()" title="Print">Print</a>  <a href="javascript:dump_theme()" title="Download Theme">Theme</a> 
+    <div id="toolbar">
+         <a href="javascript:toggle_plain_text()" title="Toggle Plain Text">Text</a>  <a href="javascript:toggle_gutter()" title="Toggle Gutter">Gutter</a>  <a href="javascript:page_print()" title="Print">Print</a>  <a href="javascript:toggle_annotations();" title="Toggle Annotations">Anot</a>  <a href="javascript:dump_theme()" title="Download Theme">Theme</a> 
     </div>
 </div>
 
+
+<script type="text/javascript">
+var position_el = {
+    center : function (el, dim) {
+        var c = win_attr.get_center(),
+            top    = (c.y - (el.offsetHeight/2)),
+            left   = (c.x - (el.offsetWidth/2));
+        if (dim == null || dim === 'y') el.style.top  = (top < 0)  ? 0 + 'px' : top  + 'px';
+        if (dim == null || dim === 'x') el.style.left = (left < 0) ? 0 + 'px' : left + 'px';
+    },
+
+    set : function (el, x, y) {
+        var left, top;
+
+        if (typeof x === "undefined") x = null;
+        if (typeof y === "undefined") y = null;
+
+        if (y === 'center') {
+            position_el.center(el, 'y');
+        } else if (y === 'top') {
+            el.style.top = 0 + 'px';
+        } else if (y === 'bottom') {
+            top = (win_attr.get_size('y') - (el.offsetHeight));
+            el.style.top = (top < 0) ? 0 + 'px' : top + 'px';
+        } else if (y.match(/^[\d]+(%%|px|em|mm|cm|in|pt|pc)$/) != null) {
+            el.style.top = y;
+        }
+
+        if (x === "center") {
+            position_el.center(el, 'x');
+        } else if (x === 'left') {
+            el.style.left = 0 + 'px';
+        } else if (x === 'right') {
+            left = (win_attr.get_size('x') - (el.offsetWidth));
+            el.style.left = (left < 0) ? 0 + 'px' : left + 'px';
+        } else if (x.match(/^[\d]+(%%|px|em|mm|cm|in|pt|pc)$/) != null) {
+            el.style.left = x;
+        }
+    }
+};
+
+var win_attr = {
+    get_center : function (dim) {
+        var c = {
+            'x' : (win_attr.get_size('x')/2),
+            'y' : (win_attr.get_size('y')/2)
+        };
+        return ((dim) ? c[dim] : c);
+    },
+
+    get_size : function(dir) {
+        dir = (dir === 'x') ? 'Width' : 'Height';
+        return ((window['inner'+dir]) ?
+            window['inner'+dir] :
+            ((window.document.documentElement && window.document.documentElement['client'+dir]) ?
+                window.document.documentElement['client'+dir] :
+                window.document.body['client'+dir]
+            )
+        );
+    }
+};
+</script>
+
+<script type="text/javascript">
+function toggle_annotations() {
+    var comments_div = document.getElementById('comment_list'),
+        mode = comments_div.style.display;
+    if (mode == 'none') {
+        comments_div.style.display = 'block';
+        position_table(comments_div)
+    } else {
+        comments_div.style.visibility = 'hidden'
+        comments_div.style.display = 'none';
+    }
+}
+
+function dock_table() {
+    var comments_div = document.getElementById('comment_list');
+    position_table(comments_div)
+}
+
+function position_table(el) {
+    var x, y,
+        sel = document.getElementById('dock'),
+        option = sel.options[sel.selectedIndex].value;
+    switch(option) {
+        case "0": x = 'center'; y = 'center';  break;
+        case "1": x = 'center'; y = 'top';     break;
+        case "2": x = 'center'; y = 'bottom';  break;
+        case "3": x = 'left';   y = 'center';  break;
+        case "4": x = 'right';  y = 'center';  break;
+        case "5": x = 'left';   y = 'top';     break;
+        case "6": x = 'right';  y = 'top';     break;
+        case "7": x = 'left';   y = 'bottom';  break;
+        case "8": x = 'right';  y = 'bottom';  break;
+        default: break;
+    }
+    setTimeout(function () {position_el.set(el, x, y); el.style.visibility = 'visible';}, 300)
+}
+</script>
+
+<script type="text/javascript">
+function scroll_to_line(value) {
+    var pos = 0,
+        el = document.getElementById(value);
+    window.scrollTo(0, 0);
+    while(el) {
+        pos += el.offsetTop;
+        el = el.offsetParent;
+    }
+    pos -= win_attr.get_center('y');
+    if (pos < 0) {
+        pos = 0;
+    }
+    window.scrollTo(0, pos);
+}
+</script>
 
 <script type="text/javascript">
 function wrap_code(numbered) {
@@ -777,18 +884,6 @@ function toggle_gutter() {
         }
     }
 }
-</script>
-
-<script type="text/javascript">
-function double_click_events(e) {
-    var evt = e ? e : window.event;
-    if (evt.shiftKey && typeof toggle_gutter !== "undefined") {
-        toggle_gutter();
-    } else if (evt.altKey && typeof toggle_annotations !== "undefined") {
-        toggle_annotations();
-    }
-}
-document.getElementsByTagName('body')[0].ondblclick = function (e) { double_click_events(e); };
 </script>
 
 </body>

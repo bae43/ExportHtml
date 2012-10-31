@@ -73,6 +73,7 @@
         -webkit-font-smoothing: antialiased; /* webkit text rendering fix */
     }
     div#toolbar {
+        visibility: hidden;
         padding-left: 10px;
         padding-right: 10px;
         opacity: 0;
@@ -80,15 +81,8 @@
         border:1px solid grey;
         color: white;
     }
-    div#toolbarIE {
-        padding-left: 10px;
-        padding-right: 10px;
-        visibility: hidden;
-        background-color:black;
-        border:1px solid grey;
-        color: white;
-    }
     div#toolbarhide:hover div#toolbar {
+        visibility: visible;
         opacity: .8;
         -webkit-transition: all .25s ease-out;
          -moz-transition: all .25s ease-out;
@@ -96,10 +90,7 @@
            -o-transition: all .25s ease-out;
               transition: all .25s ease-out;
     }
-    div#toolbarhide:hover div#toolbarIE {
-        visibility: visible;
-    }
-    div#toolbar a, div#toolbarIE a {
+    div#toolbar a {
         color:white;
     }
     div#comment_list {
@@ -558,8 +549,7 @@ function dump_theme() {
 </div></td></tr><tr><td valign="top" id="L_0_56" class="code_text code_gutter"><span style="color: #888888;">&nbsp;56&nbsp;</span></td><td class="code_text code_line"><div id="C_0_56"><span class="normal" style="color:#CCCCCC"></span><span class="normal" style="color:#F2777A">&lt;/</span><span class="normal" style="color:#F2777A">html</span><span class="normal" style="color:#F2777A">&gt;</span>
 </div></td></tr></table></td></tr></table><div id="comment_list" style="display:none"><div id="comment_wrapper"><table id="comment_table"><tr><th>Line/Col</th><th>Comments<a href="javascript:void(0)" class="table_close" onclick="toggle_annotations();return false;">(close)</a></th></tr><tr><td class="annotation_link"><a href="javascript:void(0)" onclick="scroll_to_line('C_0_3');return false;">Line 3 Col 5</a></td><td class="annotation_comment"><div class="annotation_comment">Example annotation! (click me)</div></td><tr><tr><td class="annotation_link"><a href="javascript:void(0)" onclick="scroll_to_line('C_0_33');return false;">Line 33 Col 18</a></td><td class="annotation_comment"><div class="annotation_comment">Another annotation!</div></td><tr><tr><td colspan=2><div class="table_footer"><label>Position </label><select id="dock" size="1" onchange="dock_table();"><option value="0" selected="selected">center</option><option value="1">top</option><option value="2">bottom</option><option value="3">left</option><option value="4">right</option><option value="5">top left</option><option value="6">top right</option><option value="7">bottom left</option><option value="8">bottom right</option></select></div></td></tr></table></div></div></pre>
 <div id="toolbarhide">
-<!--[if gt IE 0]>        <div id="toolbarIE"> <![endif]-->
-<!--[if !IE]><!-->       <div id="toolbar">   <!--<![endif]-->
+    <div id="toolbar">
          <a href="javascript:toggle_plain_text()" title="Toggle Plain Text">Text</a>  <a href="javascript:toggle_gutter()" title="Toggle Gutter">Gutter</a>  <a href="javascript:page_print()" title="Print">Print</a>  <a href="javascript:toggle_annotations();" title="Toggle Annotations">Anot</a>  <a href="javascript:dump_theme()" title="Download Theme">Theme</a> 
     </div>
 </div>
@@ -771,18 +761,6 @@ function toggle_gutter() {
         }
     }
 }
-</script>
-
-<script type="text/javascript">
-function double_click_events(e) {
-    var evt = e ? e : window.event;
-    if (evt.shiftKey && typeof toggle_gutter !== "undefined") {
-        toggle_gutter();
-    } else if (evt.altKey && typeof toggle_annotations !== "undefined") {
-        toggle_annotations();
-    }
-}
-document.getElementsByTagName('body')[0].ondblclick = function (e) { double_click_events(e); };
 </script>
 
 </body>
