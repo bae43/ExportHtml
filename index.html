@@ -10,18 +10,17 @@
         body {
             margin: 0;
             padding-top: 10px;
-            padding-right: 10px;
-            background-color: #2D2D2D;
             -moz-box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
             -webkit-box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
             box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
             font-family: georgia,serif;
+            background: #151515 url('header.png') no-repeat;
         }
         iframe {
+            display: block;
             width: 98%;
             height: 300px;
-            padding: 15px;
-            margin-left: 20px;
+            padding: 15px 15px 15px 15px;
             -webkit-border-radius: 20px;
             -moz-border-radius: 20px;
             border-radius: 20px;
@@ -32,9 +31,7 @@
         }
         .main {
             width: 100%;
-
             padding-top: 20px;
-            padding-left: 10px;
             background-color: #CCCCCC;
             padding-bottom: 40px;
         }
@@ -45,8 +42,27 @@
             font-size: 40px;
         }
         p {
-            padding: 10px;
+            padding: 10px 20px 10px 50px;
         }
+        .subheader {
+            display: inline;
+            padding: 10px 30px 10px 30px;
+            background: #AAAAAA;
+            -webkit-border-top-right-radius: 20px;
+            -webkit-border-bottom-right-radius: 20px;
+            -moz-border-radius-topright: 20px;
+            -moz-border-radius-bottomright: 20px;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            -moz-box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
+            -webkit-box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+        .frame_wrapper {
+            padding: 20px 35px 20px 50px;
+        }
+
     </style>
     <script type="text/javascript">
         function get_background_colors(id) {
@@ -58,25 +74,32 @@
 </head>
 <body>
     <div class="title">
-        <h1>Export HTML for Sublime Text</h2>
+        <h1>Export HTML for Sublime Text</h1>
     </div>
     <div class="main">
-        <h1>Demo Page</h2>
+        <h2 class="subheader">Demo Page</h2>
         <p>
-            This is page contains demos of html generated with the ExportHtml plugin.
+            This is a page that contains demos of html generated with the ExportHtml plugin.
             If you move the mouse into the upper left corner, a toolbar will appear giving
             you access to features like printing etc.  The actual repo is
             <a href="https://github.com/facelessuser/ExportHtml">here</a>.
         </p>
-
-        <h2>Default Print Color Demo</h2>
-        <iframe id="PrintColor" src="PrintColorDemo.html" onload="get_background_colors(this.id);"></iframe>
-
-        <h2>Tomorrow Night Demo</h2>
-        <iframe id="TomorrowNight" src="TomorrowNightDemo.html" onload="get_background_colors(this.id);"></iframe>
-
-        <h2>Monokai Blue Demo</h2>
-        <iframe id="MonokaiBlue" src="MonokaiBlueDemo.html" onload="get_background_colors(this.id);"></iframe>
+        <br>
+        <h2 class="subheader">Default Print Color Demo</h2>
+        <div class="frame_wrapper">
+            <iframe id="PrintColor" src="PrintColorDemo.html" onload="get_background_colors(this.id);"></iframe>
+        </div>
+        <br>
+        <h2 class="subheader">Tomorrow Night Demo</h2>
+        <div class="frame_wrapper">
+            <iframe id="TomorrowNight" src="TomorrowNightDemo.html" onload="get_background_colors(this.id);"></iframe>
+        </div>
+        <br>
+        <h2 class="subheader">Monokai Blue Demo</h2>
+        <div class="frame_wrapper">
+            <iframe id="MonokaiBlue" src="MonokaiBlueDemo.html" onload="get_background_colors(this.id);"></iframe>
+        </div>
+        <br>
     </div>
 </body>
 </html>
