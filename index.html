@@ -1,18 +1,27 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
+<head>
     <style type="text/css">
         html {
-            margin: 40px;
-            padding-right: 30px;
+            margin: 0 40px 40px 40px;
+            padding: 0 30px 0 30px;
+            background: url('diaglines.gif');
         }
         body {
-            background-color: #CCCCCC;
+            margin: 0;
+            padding-top: 10px;
+            padding-right: 10px;
+            background-color: #2D2D2D;
+            -moz-box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
+            -webkit-box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
+            font-family: georgia,serif;
         }
         iframe {
-            width: 100%;
+            width: 98%;
             height: 300px;
             padding: 15px;
-            margin-right: 20px;
+            margin-left: 20px;
             -webkit-border-radius: 20px;
             -moz-border-radius: 20px;
             border-radius: 20px;
@@ -23,10 +32,20 @@
         }
         .main {
             width: 100%;
+
+            padding-top: 20px;
+            padding-left: 10px;
+            background-color: #CCCCCC;
+            padding-bottom: 40px;
         }
-        h1 {
+        div.title h1 {
             text-align: center;
-            color: black;
+            color: white;
+            font-weight: bold;
+            font-size: 40px;
+        }
+        p {
+            padding: 10px;
         }
     </style>
     <script type="text/javascript">
@@ -36,21 +55,28 @@
             frame.style.backgroundColor = color_scheme["settings"][0]["settings"]["background"];
         }
     </script>
-<head>
 </head>
 <body>
-    <h1>Export HTML for Sublime Text 2 Demo</h2>
+    <div class="title">
+        <h1>Export HTML for Sublime Text</h2>
+    </div>
     <div class="main">
+        <h1>Demo Page</h2>
+        <p>
+            This is page contains demos of html generated with the ExportHtml plugin.
+            If you move the mouse into the upper left corner, a toolbar will appear giving
+            you access to features like printing etc.  The actual repo is
+            <a href="https://github.com/facelessuser/ExportHtml">here</a>.
+        </p>
+
+        <h2>Default Print Color Demo</h2>
+        <iframe id="PrintColor" src="PrintColorDemo.html" onload="get_background_colors(this.id);"></iframe>
+
         <h2>Tomorrow Night Demo</h2>
-        <p>Access toolbar in upper right corner of view</p>
         <iframe id="TomorrowNight" src="TomorrowNightDemo.html" onload="get_background_colors(this.id);"></iframe>
 
         <h2>Monokai Blue Demo</h2>
         <iframe id="MonokaiBlue" src="MonokaiBlueDemo.html" onload="get_background_colors(this.id);"></iframe>
-
-        <h2>Tomorrow Night Dark Demo</h2>
-        <iframe id="TomorrowNightDark" src="TomorrowNightDarkDemo.html" onload="get_background_colors(this.id);"></iframe>
-
     </div>
 </body>
 </html>
