@@ -335,7 +335,7 @@ class ExportHtml(object):
         colour_settings = self.plist_file["settings"][0]["settings"]
 
         # Get general theme colors from color scheme file
-        self.bground = self.strip_transparency(colour_settings.get("background", '#FFFFFF'), True, True)
+        self.bground = self.strip_transparency(colour_settings.get("background", '#272822'), True, True)
         self.fground = self.strip_transparency(colour_settings.get("foreground", '#000000'))
         self.sbground = self.strip_transparency(colour_settings.get("selection", self.fground), True)
         self.sfground = self.strip_transparency(colour_settings.get("selectionForeground", None))
@@ -465,7 +465,7 @@ class ExportHtml(object):
             return color
         rgba = RGBA(color.replace(" ", ""))
         if not simple_strip:
-            rgba.apply_alpha(self.bground if self.bground != "" else "#FFFFFF")
+            rgba.apply_alpha(self.bground if self.bground != "" else "#272822")
         if track_darkness:
             lumens = rgba.luminance()
             if self.dark_lumens is None or lumens < self.dark_lumens:
