@@ -10,7 +10,7 @@
 			<key>settings</key>
 			<dict>
 				<key>background</key>
-				<string>#FFFFFF</string>
+				<string>#272822</string>
 				<key>caret</key>
 				<string>#000000</string>
 				<key>foreground</key>
@@ -22,7 +22,7 @@
 				<key>selection</key>
 				<string>#34A7BD</string>
 				<key>selectionForeground</key>
-				<string>#FFFFFF</string>
+				<string>#272822</string>
 				<key>inactiveSelection</key>
 				<string>#9D550FAA</string>
 				<key>inactiveSelectionForeground</key>
